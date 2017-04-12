@@ -1,7 +1,7 @@
 import scipy.optimize
 
 # Minimize: c^T * x
-# Subject to: A_ub * x <= b_ub
+# Subject to: a * x <= b
 
 c = [-5, -5, -10, -10, -7, -7]
 a = [
@@ -14,4 +14,7 @@ a = [
 ]
 b = [10, 15, 5, 7, 8, 12]
 
-print(scipy.optimize.linprog(c, a, b))
+solution = scipy.optimize.linprog(c, a, b)
+
+for i in range(len(solution.x)):
+    print("x%d: %f" % (i + 1, solution.x[i]))
