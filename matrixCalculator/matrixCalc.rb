@@ -161,12 +161,14 @@ def loadArgs(args)
 
    tableau = DEFAULT_TABLEAU
 
-   arg = args.shift()
-   if (arg == '--tableau')
-      tableau = true
-   else
-      puts "Unknown arg: '#{arg}'"
-      exit 1
+   if (args.size() > 0)
+      arg = args.shift()
+      if (arg == '--tableau')
+         tableau = true
+      else
+         puts "Unknown arg: '#{arg}'"
+         exit 1
+      end
    end
 
    return tableau
