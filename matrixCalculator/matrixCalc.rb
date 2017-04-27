@@ -7,6 +7,25 @@ PRECISION = 2
 ROUNDING_PRECISION = 5
 EPSILON = 0.00001
 
+def addToBasis(matrix, oneRow, basisCol)
+   oneRow = oneRow.to_i()
+   basisCol = basisCol.to_i()
+
+   # First, one the target cell.
+   oneCell(matrix, oneRow, basisCol)
+
+   # Then zero each other cell in the col with row addition.
+   matrix.each_index{|row|
+      if (row == oneRow)
+         next
+      end
+
+      addRow(matrix, oneRow, row, -1.0 * matrix[row][basisCol])
+   }
+
+   normalize(matrix)
+end
+
 def oneCell(matrix, row, col)
    row = row.to_i()
    col = col.to_i()
@@ -113,6 +132,11 @@ def readMatrix(history)
    matrix = Array.new(rows){ Array.new(cols) }
    for row in 0...rows
       vals = gets().strip().split(' ').map{|val| parseNumber(val.strip())}
+      if (vals.size() != cols)
+         puts "Incorrect number of cols. Found: #{vals.size()}, required: #{cols}"
+         exit 2
+      end
+
       history << vals.join(' ')
       
       for col in 0...cols
@@ -132,6 +156,7 @@ def loadArgs(args)
       puts "   s[cale] <row index> <scale factor> - Scale a row."
       puts "   a[dd] <source row> <dest row> [scale factor] - Add a row to another (with possible scaling)."
       puts "   o[ne] <row> <col> - Scale a row so that it has a 1 in a specific cell."
+      puts "   b[asis] <row> <col> - Add this column to this basis, using the row as the one."
    end
 
    tableau = DEFAULT_TABLEAU
@@ -173,6 +198,8 @@ def main(tableau)
          addRow(matrix, *args)
       when 'o', 'one'
          oneCell(matrix, *args)
+      when 'b', 'basis'
+         addToBasis(matrix, *args)
       else
          puts "Unknown command: '#{command}'"
       end
