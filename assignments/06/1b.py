@@ -1,8 +1,5 @@
 import numpy
 
-# Minimize: c^T * x
-# Subject to: a * x = b
-
 a = numpy.matrix([
     [8.9, 8.1, 3.5, 3.8],
     [9.6, 2.4, 8.3, 5.7],
@@ -16,4 +13,3 @@ a = numpy.matrix([
 b = numpy.matrix([58.6, 84.4, 46.9, 31.0, 67.5, 59.1, 100.6, 46.0]).T
 
 print((a.T * a).I * a.T * b)
-# print((a.T * a).I * a.T * b)
