@@ -1,7 +1,7 @@
 import math
 import numpy
 
-CONVERGENCE_DIFF = 1e-12
+CONVERGENCE_DIFF = 1e-15
 GRADIENT_CUTOFF = 1e-9
 
 # All matric work, input, and output will be done with numpy.matrix.
@@ -51,8 +51,6 @@ def conjugateGradient(initialX, objective, gradient, hessian):
                 d = -(g - gamma * d)
 
             # If gradient miniscule, avoid dividing by something close to zero
-            # TEST
-            # if (l2Norm(g) > GRADIENT_CUTOFF):
             if (numpy.linalg.norm(g) > GRADIENT_CUTOFF):
                 # Choose step size to minimize quadratic approximation:
                 # alpha = -g.T * d / (d.T * H * d)

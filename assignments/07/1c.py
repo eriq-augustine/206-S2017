@@ -1,4 +1,4 @@
-import conjugateGradient
+import gradientProjection
 
 import numpy
 
@@ -57,12 +57,25 @@ if __name__ == '__main__':
     gradientLambda = lambda x: gradient(x)
     hessianLambda = lambda x: hessian(x)
 
-    guess = numpy.matrix([[10.0], [10.0], [10.0]])
-    res = conjugateGradient.conjugateGradient(guess, objectiveLambda, gradientLambda, hessianLambda)
-    x, objectiveValue, g, xHistory, objectiveHistory = res
+    A = numpy.matrix([
+        [0, 1, 0],
+        [0, 0, 1]
+    ])
 
+    b = numpy.matrix([
+        [2],
+        [0.5]
+    ])
+
+    workingSet = [False, False]
+    x = numpy.matrix([
+        [0.0],
+        [0.0],
+        [0.0]
+    ])
+
+    x, objectiveValue = gradientProjection.gradientProjection(A, b, x, workingSet, objective, gradient, hessian)
+
+    print("Solution:")
     print(x)
     print(objectiveValue)
-
-    # Check gradient.
-    print(gradient(x))
